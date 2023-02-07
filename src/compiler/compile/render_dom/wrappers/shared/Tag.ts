@@ -45,13 +45,22 @@ export default class Tag extends Wrapper {
 				condition = x`!#current || ${condition}`;
 			}
 
-			const update_cached_value = x`${value} !== (${value} = ${snippet})`;
-
 			if (this.node.should_cache) {
-				condition = x`${condition} && ${update_cached_value}`;
+				const updatedValue = block.get_unique_name(`${this.var.name}_value_updated`);
+
+				block.chunks.update.push(b`
+					if (${condition}) {
+						const ${updatedValue} = ${snippet}
+						if(${value} !== ${updatedValue}) {
+							${value} = ${updatedValue}
+							${update(content as Node)}
+						}
+					}`
+				);
+			} else {
+				block.chunks.update.push(b`if (${condition}) ${update(content as Node)}`);
 			}
 
-			block.chunks.update.push(b`if (${condition}) ${update(content as Node)}`);
 		}
 
 		return { init: content };

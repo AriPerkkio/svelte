@@ -71,9 +71,32 @@ function create_each_block(ctx) {
 			html_tag.m(raw_value, div);
 		},
 		p(ctx, dirty) {
-			if (dirty & /*comments*/ 1 && t2_value !== (t2_value = /*comment*/ ctx[4].author + "")) set_data(t2, t2_value);
-			if (dirty & /*elapsed, comments, time*/ 7 && t4_value !== (t4_value = /*elapsed*/ ctx[1](/*comment*/ ctx[4].time, /*time*/ ctx[2]) + "")) set_data(t4, t4_value);
-			if (dirty & /*comments*/ 1 && raw_value !== (raw_value = /*comment*/ ctx[4].html + "")) html_tag.p(raw_value);
+			if (dirty & /*comments*/ 1) {
+				const t2_value_updated = /*comment*/ ctx[4].author + "";
+
+				if (t2_value !== t2_value_updated) {
+					t2_value = t2_value_updated;
+					set_data(t2, t2_value);
+				}
+			}
+
+			if (dirty & /*elapsed, comments, time*/ 7) {
+				const t4_value_updated = /*elapsed*/ ctx[1](/*comment*/ ctx[4].time, /*time*/ ctx[2]) + "";
+
+				if (t4_value !== t4_value_updated) {
+					t4_value = t4_value_updated;
+					set_data(t4, t4_value);
+				}
+			}
+
+			if (dirty & /*comments*/ 1) {
+				const raw_value_updated = /*comment*/ ctx[4].html + "";
+
+				if (raw_value !== raw_value_updated) {
+					raw_value = raw_value_updated;
+					html_tag.p(raw_value);
+				}
+			}
 		},
 		d(detaching) {
 			if (detaching) detach(div);

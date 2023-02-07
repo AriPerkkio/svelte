@@ -36,7 +36,14 @@ function create_each_block(ctx) {
 			append(span, t);
 		},
 		p(ctx, dirty) {
-			if (dirty & /*a, b, c, d, e*/ 31 && t_value !== (t_value = /*num*/ ctx[5] + "")) set_data(t, t_value);
+			if (dirty & /*a, b, c, d, e*/ 31) {
+				const t_value_updated = /*num*/ ctx[5] + "";
+
+				if (t_value !== t_value_updated) {
+					t_value = t_value_updated;
+					set_data(t, t_value);
+				}
+			}
 		},
 		d(detaching) {
 			if (detaching) detach(span);

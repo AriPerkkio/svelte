@@ -46,7 +46,14 @@ function create_fragment(ctx) {
 			}
 		},
 		p(ctx, [dirty]) {
-			if (dirty & /*things*/ 1 && t3_value !== (t3_value = /*things*/ ctx[0].length + "")) set_data(t3, t3_value);
+			if (dirty & /*things*/ 1) {
+				const t3_value_updated = /*things*/ ctx[0].length + "";
+
+				if (t3_value !== t3_value_updated) {
+					t3_value = t3_value_updated;
+					set_data(t3, t3_value);
+				}
+			}
 		},
 		i: noop,
 		o: noop,
